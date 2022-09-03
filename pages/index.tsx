@@ -2,21 +2,8 @@ import type { NextPage } from "next"
 import Head from "next/head"
 import { useForm } from "react-hook-form"
 import { useMutation } from "@tanstack/react-query"
-
-const importNlp = () => import("compromise/three")
-
-async function analyzeNLP(text: string) {
-	const importedModule = await importNlp()
-	const nlp = importedModule.default
-	const doc = nlp(text)
-	return Promise.resolve({
-		penn: doc.compute("penn").json(),
-		verbs: doc.verbs().json(),
-		adverbs: doc.adverbs().json(),
-		nouns: doc.nouns().json(),
-		adjectives: doc.adjectives().json(),
-	})
-}
+import { analyzeText } from "../lib/analyzeText"
+import { DataTable } from "../src/components/DataTable"
 
 interface AnalyzeFormData {
 	text: string
@@ -31,7 +18,7 @@ const Home: NextPage = () => {
 		},
 	})
 	const analysisMutation = useMutation((values: AnalyzeFormData) =>
-		analyzeNLP(values.text)
+		analyzeText(values.text)
 	)
 
 	return (
@@ -75,11 +62,7 @@ const Home: NextPage = () => {
 						{JSON.stringify(analysisMutation.error)}
 					</div>
 				)}
-				{analysisMutation.isSuccess && (
-					<pre className="border border-gray-300 bg-gray-100 p-2 rounded whitespace-pre-wrap">
-						{JSON.stringify(analysisMutation.data, null, 2)}
-					</pre>
-				)}
+				<DataTable data={analysisMutation.data} />
 			</form>
 		</main>
 	)
