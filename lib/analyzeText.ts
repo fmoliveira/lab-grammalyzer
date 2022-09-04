@@ -12,7 +12,8 @@ export async function analyzeText(text: string) {
 	return penn.flatMap((i: any) => {
 		return i.terms.map((t: any) => {
 			const { index, text, tagRank } = t
-			return { index, text, tag: tagRank[0] }
+			const id = index.join("_")
+			return { id, text, tag: tagRank[0] }
 		})
 	})
 }

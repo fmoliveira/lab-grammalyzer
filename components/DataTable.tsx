@@ -3,9 +3,10 @@ import { Fragment } from "react"
 type SingleValue = string | number
 type ArrayValue = SingleValue[]
 type Value = SingleValue | ArrayValue
+type DataItem = Record<string, Value> & { id: string }
 
 type Props = {
-	data: Record<string, Value>
+	data: DataItem[]
 }
 
 export default function DataTable({ data }: Props) {
@@ -13,7 +14,7 @@ export default function DataTable({ data }: Props) {
 		return null
 	}
 
-	const headers = Object.keys(data[0])
+	const headers = Object.keys(data[0]).filter((i) => i !== "id")
 
 	return (
 		<table>
@@ -27,12 +28,12 @@ export default function DataTable({ data }: Props) {
 				</tr>
 			</thead>
 			<tbody>
-				{data.map((d) => (
-					<Fragment key={d}>
+				{data.map((dataItem) => (
+					<Fragment key={dataItem.id}>
 						<tr>
-							{headers.map((c) => (
-								<Fragment key={`${d}_${c}`}>
-									<td>{displayValue(d[c])}</td>
+							{headers.map((cell) => (
+								<Fragment key={`${dataItem.id}_${cell}`}>
+									<td>{displayValue(dataItem[cell])}</td>
 								</Fragment>
 							))}
 						</tr>
