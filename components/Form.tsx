@@ -8,7 +8,7 @@ type Props = StyledElement<"form"> & {
 export default function Form({ form, ...props }: Props) {
 	return (
 		<FormProvider {...form}>
-			<form {...props} />
+			<form className="flex-1" {...props} />
 		</FormProvider>
 	)
 }

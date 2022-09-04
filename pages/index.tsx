@@ -29,19 +29,27 @@ const Home: NextPage = () => {
 	)
 
 	return (
-		<main className="p-2 flex flex-col gap-2 max-w-3xl mx-auto my-10">
-			<Form
-				form={form}
-				onSubmit={form.handleSubmit((values) =>
-					analysisMutation.mutate(values)
-				)}
-			>
+		<div
+			className="grid w-screen h-screen"
+			style={{ gridTemplateColumns: "2fr 1fr", gridTemplateRows: "4rem auto" }}
+		>
+			<header className="col-span-2 p-4 flex flex-col justify-center bg-slate-900 text-slate-100">
 				<Heading kind="h1">Grammalyzer</Heading>
-				<Label htmlFor="text">Enter below the text you want to analyze</Label>
-				<TextArea name="text" cols={30} rows={10} />
-				<Button kind="primary" type="submit">
-					Analyze Text
-				</Button>
+			</header>
+			<main className="p-4 flex flex-col">
+				<Form
+					form={form}
+					onChange={form.handleSubmit((values) =>
+						analysisMutation.mutate(values)
+					)}
+				>
+					<Label htmlFor="text" visuallyHidden>
+						Enter below the text you want to analyze
+					</Label>
+					<TextArea name="text" fullScreen />
+				</Form>
+			</main>
+			<aside className="p-4 border-l-2 border-slate-900 overflow-y-auto">
 				<Loader if={analysisMutation.isLoading}>
 					Analysis in progress, please wait...
 				</Loader>
@@ -49,8 +57,8 @@ const Home: NextPage = () => {
 					{JSON.stringify(analysisMutation.error)}
 				</Alert>
 				<DataTable data={analysisMutation.data} />
-			</Form>
-		</main>
+			</aside>
+		</div>
 	)
 }
 
