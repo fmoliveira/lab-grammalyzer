@@ -17,12 +17,12 @@ export default function DataTable({ data }: Props) {
 	const headers = Object.keys(data[0]).filter((i) => i !== "id")
 
 	return (
-		<table>
+		<table className="table-auto w-full">
 			<thead>
 				<tr>
 					{headers.map((h) => (
 						<Fragment key={h}>
-							<th>{h}</th>
+							<th className="text-left uppercase text-sm text-gray-500">{h}</th>
 						</Fragment>
 					))}
 				</tr>

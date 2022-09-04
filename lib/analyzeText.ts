@@ -13,7 +13,7 @@ export async function analyzeText(text: string) {
 		return i.terms.map((t: any) => {
 			const { index, text, tagRank } = t
 			const id = index.join("_")
-			return { id, text, tag: tagRank[0] }
+			return { id, text, tagRank }
 		})
 	})
 }
