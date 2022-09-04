@@ -8,7 +8,7 @@ type Props = {
 	data: Record<string, Value>
 }
 
-export function DataTable({ data }: Props) {
+export default function DataTable({ data }: Props) {
 	if (typeof data !== "object" || !Array.isArray(data) || data.length === 0) {
 		return null
 	}
